@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZAZIKSIZDARYM бот — оқушыға нұсқаулық</title>
+<style>
+  :root{
+    --bg:#0d111c; --card:#161c2b; --card2:#1d2538; --line:#2a3450;
+    --text:#eef2ff; --muted:#9aa6c4; --tg:#3ea6ff; --fire1:#ff7a18; --fire2:#ff3d6e;
+    --gold:#ffcc4d; --silver:#cfd8e6; --bronze:#e59866; --ok:#3ddc97;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:-20% -20% auto -20%;height:70vh;background:radial-gradient(closest-side,rgba(255,122,24,.18),transparent),radial-gradient(closest-side at 80% 30%,rgba(62,166,255,.15),transparent);pointer-events:none;z-index:0}
+  main{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:20px 16px 80px}
+  a{color:inherit}
+  h2{font-size:clamp(22px,5.5vw,30px);font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+  .sub{color:var(--muted);margin-bottom:18px}
+  section{margin-top:56px}
+  .tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fire1);margin-bottom:8px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font:inherit;font-weight:700;border-radius:14px;padding:14px 20px;text-decoration:none;transition:transform .15s, filter .15s}
+  .btn:active{transform:scale(.97)}
+  .btn-fire{background:linear-gradient(135deg,var(--fire1),var(--fire2));color:#fff;box-shadow:0 8px 24px rgba(255,61,110,.35)}
+  .btn-tg{background:var(--tg);color:#fff}
+  .btn-ghost{background:var(--card2);color:var(--text);border:1px solid var(--line)}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:5;background:rgba(13,17,28,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav .in{max-width:720px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;padding:10px 16px;scrollbar-width:none}
+  nav .in::-webkit-scrollbar{display:none}
+  nav a{flex:none;font-size:14px;font-weight:600;text-decoration:none;padding:7px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--muted)}
+  nav a:hover{color:var(--text)}
+
+  /* hero */
+  .hero{text-align:center;padding-top:28px}
+  .avatar{width:96px;height:96px;border-radius:50%;margin:0 auto 14px;display:grid;place-items:center;font-size:44px;font-weight:800;color:#fff;background:linear-gradient(160deg,#ffd89a,#f6a97a);box-shadow:0 0 0 6px rgba(255,204,77,.12),0 12px 40px rgba(246,169,122,.35)}
+  .hero h1{font-size:clamp(28px,8vw,46px);line-height:1.05;font-weight:900;letter-spacing:-.03em}
+  .hero h1 .grad{background:linear-gradient(90deg,var(--fire1),var(--fire2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--muted);margin:12px auto 22px;max-width:520px;font-size:17px}
+  .handle{font-size:14px;color:var(--tg);margin-top:4px}
+  .counters{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:26px;text-align:left}
+  .counter{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+  .counter small{display:block;color:var(--muted);font-size:12px;font-weight:600}
+  .counter b{display:block;font-size:20px;font-variant-numeric:tabular-nums;margin-top:4px}
+  .counter span{font-size:13px;color:var(--muted)}
+
+  /* steps */
+  .steps{display:grid;gap:10px}
+  .step{display:flex;gap:14px;align-items:flex-start}
+  .num{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:800;background:var(--card2);border:1px solid var(--line);color:var(--tg)}
+  .step b{display:block}
+  .step span{color:var(--muted);font-size:15px}
+
+  /* week */
+  .days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:12px}
+  .day{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:12px;padding:10px 0;font:inherit;font-weight:700;font-size:13px;cursor:pointer;position:relative}
+  .day.has::after{content:"";position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--fire1)}
+  .day.sat::after{background:var(--gold)}
+  .day.active{background:linear-gradient(135deg,var(--fire1),var(--fire2));color:#fff;border-color:transparent}
+  .dayinfo{min-height:150px}
+  .dayinfo h3{font-size:19px;margin-bottom:8px}
+  .chip{display:inline-flex;align-items:center;gap:6px;background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:6px 12px;margin:4px 4px 0 0;font-size:14px;font-weight:600}
+  .chip.dl{color:var(--fire1)}
+  .dayinfo p{color:var(--muted);margin-top:10px;font-size:15px}
+
+  /* timeline */
+  .tl{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .slot{text-align:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 8px}
+  .slot .ic{font-size:30px}
+  .slot b{display:block;font-size:22px;margin-top:6px;font-variant-numeric:tabular-nums}
+  .slot span{font-size:13px;color:var(--muted)}
+  .slot.ev{border-color:rgba(62,166,255,.6);background:linear-gradient(180deg,rgba(62,166,255,.12),var(--card))}
+  .note{margin-top:12px;font-size:14px;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:12px 14px}
+
+  /* chat */
+  .phone{background:#0e1621;border:1px solid var(--line);border-radius:26px;overflow:hidden;max-width:420px;margin:0 auto}
+  .phone-top{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#17212b;border-bottom:1px solid #0b1118}
+  .phone-top .av{width:36px;height:36px;border-radius:50%;background:linear-gradient(160deg,#ffd89a,#f6a97a);display:grid;place-items:center;font-weight:800}
+  .phone-top b{display:block;font-size:15px}
+  .phone-top small{color:#6c8299;font-size:12px}
+  .chat{padding:14px;display:flex;flex-direction:column;gap:8px;min-height:300px;background:radial-gradient(circle at 20% 20%,rgba(62,166,255,.05),transparent 60%)}
+  .msg{max-width:86%;padding:9px 12px;border-radius:14px;font-size:15px;line-height:1.45;animation:pop .3s ease}
+  .msg.bot{background:#182533;border-bottom-left-radius:4px;align-self:flex-start}
+  .msg.me{background:#2b5278;border-bottom-right-radius:4px;align-self:flex-end}
+  .msg time{display:block;text-align:right;font-size:11px;color:#6c8299;margin-top:3px}
+  .kb{display:grid;gap:4px;max-width:86%;align-self:flex-start;width:86%}
+  .kb button{font:inherit;font-size:14px;font-weight:600;color:#fff;background:rgba(36,52,70,.95);border:0;border-radius:10px;padding:10px;cursor:pointer;transition:background .15s}
+  .kb button:hover:not(:disabled){background:#2f4560}
+  .kb button:disabled{opacity:.45;cursor:default}
+  .kb button.chosen{opacity:1;background:#2b5278;outline:2px solid var(--tg)}
+  .typing{align-self:flex-start;background:#182533;border-radius:14px;padding:10px 14px;display:flex;gap:4px}
+  .typing i{width:6px;height:6px;border-radius:50%;background:#6c8299;animation:blink 1s infinite}
+  .typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+  @keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+  @keyframes pop{from{opacity:0;transform:translateY(6px) scale(.98)}to{opacity:1;transform:none}}
+  .center{text-align:center;margin-top:14px}
+  .lock{display:flex;gap:12px;align-items:flex-start;margin-top:14px}
+  .lock .ic{font-size:26px}
+  .lock p{color:var(--muted);font-size:15px}
+
+  /* streak */
+  .streak{text-align:center;overflow:hidden;position:relative}
+  .flame{font-size:64px;line-height:1;display:inline-block;transition:transform .4s cubic-bezier(.3,1.6,.5,1),filter .4s;filter:drop-shadow(0 0 12px rgba(255,122,24,.5))}
+  .flame.off{filter:grayscale(1) opacity(.35)}
+  .flame.shake{animation:shake .5s}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px) rotate(-6deg)}40%{transform:translateX(8px) rotate(6deg)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+  .scount{font-size:52px;font-weight:900;font-variant-numeric:tabular-nums;margin-top:6px;background:linear-gradient(90deg,var(--fire1),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .slabel{color:var(--muted);font-weight:600}
+  .dots{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:16px 0;min-height:30px}
+  .dots span{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:14px;background:var(--card2);animation:pop .25s}
+  .dots span.x{background:rgba(255,61,110,.18)}
+  .srow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .sstatus{min-height:24px;margin-top:12px;font-weight:700}
+  .record{font-size:13px;color:var(--muted);margin-top:6px}
+  .rules{display:grid;gap:10px;margin-top:12px}
+  .rule{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+  .rule .ic{font-size:24px;flex:none}
+  .rule p{font-size:15px;color:var(--muted)}
+  .rule b{color:var(--text)}
+
+  /* battle */
+  .flow{display:grid;gap:10px}
+  .fstep{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+  .fstep .t{flex:none;min-width:64px;text-align:center;font-weight:800;font-size:15px;color:var(--gold);background:rgba(255,204,77,.1);border-radius:10px;padding:8px 6px}
+  .fstep p{font-size:15px;color:var(--muted)}
+  .fstep b{color:var(--text);display:block}
+  .podium-wrap{margin-top:18px;text-align:center}
+  .podium{display:flex;align-items:flex-end;justify-content:center;gap:8px;height:230px;margin:10px 0 14px}
+  .pcol{width:30%;max-width:130px;display:flex;flex-direction:column;align-items:center;gap:6px}
+  .pcol .who{font-size:34px;opacity:0;transform:translateY(20px) scale(.6);transition:all .5s cubic-bezier(.3,1.6,.5,1)}
+  .pcol .who.show{opacity:1;transform:none}
+  .pcol .name{font-size:13px;font-weight:700;opacity:0;transition:opacity .4s .2s}
+  .pcol .who.show + .name{opacity:1}
+  .block{width:100%;border-radius:12px 12px 4px 4px;display:grid;place-items:center;font-size:30px;font-weight:900;color:#1a1305;height:0;transition:height .6s cubic-bezier(.3,1.3,.5,1);overflow:hidden}
+  .p1 .block{background:linear-gradient(180deg,#ffe08a,var(--gold))}
+  .p2 .block{background:linear-gradient(180deg,#eef3fa,var(--silver))}
+  .p3 .block{background:linear-gradient(180deg,#f7c39b,var(--bronze))}
+
+  /* quiz */
+  .q{margin-bottom:14px}
+  .q h4{font-size:16px;margin-bottom:8px}
+  .opts{display:grid;gap:6px}
+  .opts button{text-align:left;font:inherit;font-size:15px;color:var(--text);background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:11px 14px;cursor:pointer}
+  .opts button.right{background:rgba(61,220,151,.15);border-color:var(--ok)}
+  .opts button.wrong{background:rgba(255,61,110,.15);border-color:var(--fire2)}
+  .opts button:disabled{cursor:default}
+  .fb{font-size:14px;margin-top:6px;color:var(--muted);min-height:1em}
+  .score{text-align:center;font-weight:800;font-size:18px;margin-top:6px}
+
+  /* faq */
+  details{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:8px;overflow:hidden}
+  summary{cursor:pointer;list-style:none;padding:15px 16px;font-weight:700;display:flex;justify-content:space-between;gap:10px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--fire1);font-size:20px;line-height:1;transition:transform .2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{padding:0 16px 16px;color:var(--muted);font-size:15px}
+
+  .final{text-align:center;background:linear-gradient(135deg,rgba(255,122,24,.16),rgba(255,61,110,.14));border:1px solid rgba(255,122,24,.4);border-radius:24px;padding:28px 18px}
+  .final h2{margin-bottom:8px}
+  .final p{color:var(--muted);margin-bottom:18px}
+  footer{text-align:center;color:var(--muted);font-size:13px;margin-top:30px}
+
+  .confetti{position:fixed;top:-20px;font-size:22px;pointer-events:none;z-index:50;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.8}}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s, transform .6s}
+  .reveal.in{opacity:1;transform:none}
+  @media (max-width:420px){.tl{gap:6px}.slot b{font-size:19px}.day{font-size:12px}}
+</style>
+</head>
+<body>
+
+<nav><div class="in">
+  <a href="#join">🚀 Қосылу</a>
+  <a href="#week">📅 Апта</a>
+  <a href="#remind">⏰ Ескерту</a>
+  <a href="#demo">💬 Демо</a>
+  <a href="#streak">🔥 От</a>
+  <a href="#battle">🏆 Баттл</a>
+  <a href="#quiz">🧠 Тест</a>
+  <a href="#faq">❓ Сұрақтар</a>
+</div></nav>
+
+<main>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="avatar">Z</div>
+    <h1>Дедлайнды ұмытпа.<br><span class="grad">Отыңды сөндірме.</span><br>Сенбіде жеңіп ал! 🏆</h1>
+    <div class="handle">ZAZIKSIZDARYM 🫶❤️ · @JUZZZMIKO_bot</div>
+    <p>Бұл — сенің жеке көмекшің. Ол тапсырмаларды еске салады, қанша уақыт қалғанын айтады, ал жақсы оқитындарды апта сайын жарысқа шақырады.</p>
+    <a class="btn btn-fire" href="https://t.me/JUZZZMIKO_bot" target="_blank" rel="noopener">🚀 Ботқа қосылу</a>
+
+    <div class="counters">
+      <div class="counter"><small>⏳ Жақын дедлайн</small><b id="cdDead">—</b><span id="cdDeadName">есептеліп жатыр…</span></div>
+      <div class="counter"><small>⚔️ Сенбілік баттлға дейін</small><b id="cdBattle">—</b><span>Сенбі, 22:00</span></div>
+    </div>
+  </header>
+
+  <!-- JOIN -->
+  <section id="join" class="reveal">
+    <div class="tag">1-қадам</div>
+    <h2>Қалай қосыламын?</h2>
+    <p class="sub">Бар болғаны 30 секунд. Ешқандай тіркелу, пароль жоқ.</p>
+    <div class="card steps">
+      <div class="step"><div class="num">1</div><div><b>Сілтемені аш</b><span>Төмендегі батырманы бас немесе t.me/JUZZZMIKO_bot сілтемесіне кір.</span></div></div>
+      <div class="step"><div class="num">2</div><div><b>«Бастау» (Start) батырмасын бас</b><span>Немесе /start деп жаз — бұдан артық ештеңе керек емес.</span></div></div>
+      <div class="step"><div class="num">3</div><div><b>Дайын! 🎉</b><span>Бот сені есіне сақтайды. Енді хабарламалар өзі келе бастайды.</span></div></div>
+      <a class="btn btn-tg" style="margin-top:6px" href="https://t.me/JUZZZMIKO_bot" target="_blank" rel="noopener">✈️ Telegram-да ашу</a>
+    </div>
+  </section>
+
+  <!-- WEEK -->
+  <section id="week" class="reveal">
+    <div class="tag">2-қадам</div>
+    <h2>Сенің аптаң 📅</h2>
+    <p class="sub">Күнді бас та, сол күні не болатынын көр.</p>
+    <div class="days" id="days"></div>
+    <div class="card dayinfo" id="dayinfo"></div>
+  </section>
+
+  <!-- REMIND -->
+  <section id="remind" class="reveal">
+    <div class="tag">Ескертулер</div>
+    <h2>Күніне 3 рет еске салады ⏰</h2>
+    <p class="sub">Тапсырма бар күні бот саған үш рет жазады: тапсырманың атын, дедлайнды және қанша уақыт қалғанын айтады.</p>
+    <div class="tl">
+      <div class="slot"><div class="ic">☀️</div><b>08:00</b><span>Таңертең</span></div>
+      <div class="slot"><div class="ic">🍽</div><b>13:00</b><span>Түсте</span></div>
+      <div class="slot ev"><div class="ic">🌙</div><b>20:00</b><span>Кешке + батырмалар</span></div>
+    </div>
+    <div class="note">💡 Тапсырма жоқ күндері де бот ұмытпайды: таңертең алдағы тапсырмаларды айтып, «ертерек бастасаң, кешікпейсің» деп еске салады.</div>
+  </section>
+
+  <!-- DEMO -->
+  <section id="demo" class="reveal">
+    <div class="tag">Өзің сынап көр</div>
+    <h2>Кешкі сауалнама 💬</h2>
+    <p class="sub">Кешкі хабарламада үш батырма болады. Төменде біреуін басып көр — бот қалай жауап беретінін көресің.</p>
+    <div class="phone">
+      <div class="phone-top"><div class="av">Z</div><div><b>ZAZIKSIZDARYM 🫶❤️</b><small>bot</small></div></div>
+      <div class="chat" id="chat"></div>
+    </div>
+    <div class="center"><button class="btn btn-ghost" id="chatReset">🔁 Қайта көру</button></div>
+    <div class="card lock">
+      <div class="ic">🔒</div>
+      <p><b style="color:var(--text)">Жауабыңды тек мұғалім көреді.</b> Басқа оқушылар сенің не таңдағаныңды білмейді. Батырманы <b style="color:var(--text)">күніне бір-ақ рет</b> таңдайсың, сондықтан шынын айт — бұл саған көмектесу үшін керек.</p>
+    </div>
+  </section>
+
+  <!-- STREAK -->
+  <section id="streak" class="reveal">
+    <div class="tag">Duolingo сияқты</div>
+    <h2>Отыңды жақ 🔥</h2>
+    <p class="sub">Тапсырманы кешікпей, қатарынан тапсырған сайын отың үлкейеді. Бір рет өткізіп алсаң — сөнеді. Төменде сынап көр!</p>
+    <div class="card streak">
+      <div class="flame off" id="flame">🔥</div>
+      <div class="scount" id="scount">0</div>
+      <div class="slabel">күндік от</div>
+      <div class="dots" id="sdots"></div>
+      <div class="srow">
+        <button class="btn btn-fire" id="sOk">✅ Уақытында тапсырдым</button>
+        <button class="btn btn-ghost" id="sMiss">😴 Өткізіп алдым</button>
+      </div>
+      <div class="sstatus" id="sstatus">Батырманы бас 👆</div>
+      <div class="record" id="srecord">Ең үздік нәтиже: 0</div>
+    </div>
+    <div class="rules">
+      <div class="rule"><div class="ic">🔥</div><p><b>Уақытында тапсырдың — от жанады.</b> Әр уақытында орындалған тапсырма отыңа +1 қосады.</p></div>
+      <div class="rule"><div class="ic">💨</div><p><b>Кешіктің немесе тапсырмадың — от сөнеді.</b> Есеп нөлден қайта басталады.</p></div>
+      <div class="rule"><div class="ic">🎁</div><p><b>Курс соңында ең үлкен оты бар оқушы сыйлық алады.</b> Бұл — ұзақ жарыс, сондықтан әр тапсырма маңызды.</p></div>
+    </div>
+  </section>
+
+  <!-- BATTLE -->
+  <section id="battle" class="reveal">
+    <div class="tag">Әр сенбі</div>
+    <h2>Аптаның баттлы ⚔️</h2>
+    <p class="sub">Апта бойы жақсы оқыдың ба? Онда сенбі күні жарысқа түсесің.</p>
+    <div class="flow">
+      <div class="fstep"><div class="t">Сенбі<br>кеш</div><p><b>🏅 Аптаның ТОП-10 оқушысы шығады</b>Бот апта бойы ең жақсы нәтиже көрсеткен 10 оқушыны жариялайды.</p></div>
+      <div class="fstep"><div class="t">22:00</div><p><b>🎮 Google Meet-те ойын басталады</b>ТОП-10 оқушы бір-бірімен жарысады. Сілтемені бот береді.</p></div>
+      <div class="fstep"><div class="t">Финал</div><p><b>🥇🥈🥉 Үздік үштік сыйлық алады</b>Бот 1, 2 және 3-орын иелерін барлығына жариялайды.</p></div>
+    </div>
+    <div class="card podium-wrap">
+      <div class="podium">
+        <div class="pcol p2"><div class="who" id="w2">🥈</div><div class="name">2-орын</div><div class="block" data-h="120">2</div></div>
+        <div class="pcol p1"><div class="who" id="w1">🥇</div><div class="name">1-орын</div><div class="block" data-h="170">1</div></div>
+        <div class="pcol p3"><div class="who" id="w3">🥉</div><div class="name">3-орын</div><div class="block" data-h="90">3</div></div>
+      </div>
+      <button class="btn btn-fire" id="podBtn">🏆 Жеңімпаздарды көрсету</button>
+      <p class="sub" style="margin:12px 0 0">Келесі жолы осы жерде сенің атың тұруы мүмкін 😉</p>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="reveal">
+    <div class="tag">Тексеріп көр</div>
+    <h2>Ережені білесің бе? 🧠</h2>
+    <p class="sub">4 сұрақ. Барлығына дұрыс жауап берсең — сен дайынсың!</p>
+    <div class="card" id="quizBox"></div>
+    <div class="score" id="qscore"></div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="reveal">
+    <div class="tag">Сұрақ-жауап</div>
+    <h2>Жиі қойылатын сұрақтар ❓</h2>
+    <p class="sub"></p>
+    <details><summary>Менің жауабымды басқа оқушылар көре ме?</summary><p>Жоқ. «Орындадым», «Орындап жатырмын», «Сәл кешігемін» деген жауаптарды тек мұғалім көреді. Жария түрде тек аптаның ТОП-10 тізімі мен баттл жеңімпаздары шығады.</p></details>
+    <details><summary>Батырманы бірнеше рет басуға бола ма?</summary><p>Жоқ, күніне бір-ақ рет таңдайсың. Сондықтан ойланып, шынын бас.</p></details>
+    <details><summary>Кешігіп қалсам не болады?</summary><p>Отың сөнеді, есеп нөлден басталады. Бірақ ренжіме: келесі тапсырманы уақытында тапсырсаң, от қайтадан жанады 🔥</p></details>
+    <details><summary>ТОП-10-ға қалай кіремін?</summary><p>Тапсырмаларды уақытында орында, отыңды сөндірме. Апта бойы тұрақты жұмыс істеген оқушылар тізімнің басында болады.</p></details>
+    <details><summary>Хабарламалар келмей жатыр. Не істеймін?</summary><p>Ботты бұғаттап (блоктап) қоймағаныңды тексер және оған /start деп қайта жаз. Мәселе шешілмесе, мұғаліміңе хабарлас.</p></details>
+    <details><summary>Сыйлықтар қандай?</summary><p>Бұл — құпия 🤫 Мұғалім өзі жариялайды. Бір нәрсе анық: оған лайық болу үшін еңбек ету керек!</p></details>
+  </section>
+
+  <section class="reveal">
+    <div class="final">
+      <div style="font-size:48px">🔥</div>
+      <h2>Отыңды бүгін жақ!</h2>
+      <p>Ботқа қосыл, бірінші тапсырманы уақытында тапсыр — сенбіде кездескенше!</p>
+      <a class="btn btn-fire" href="https://t.me/JUZZZMIKO_bot" target="_blank" rel="noopener">🚀 @JUZZZMIKO_bot-ты ашу</a>
+    </div>
+  </section>
+
+  <footer>ZAZIKSIZDARYM 🫶❤️ · уақыт Алматы бойынша көрсетілген</footer>
+</main>
+
+<script>
+(function(){
+  /* ---------- Countdown (Asia/Almaty, UTC+5) ---------- */
+  var OFF = 5*3600*1000;
+  function almNow(){ return new Date(Date.now()+OFF); } // fields read via getUTC*
+  var deadlines = [
+    {wd:3,h:23,m:59,name:"📝 Конспект · сәрсенбі 23:59"},
+    {wd:4,h:23,m:59,name:"📚 Үй жұмысы · бейсенбі 23:59"},
+    {wd:5,h:23,m:59,name:"🧪 Практика, QUIZ, Қатемен жұмыс · жұма 23:59"}
+  ];
+  function nextAt(wd,h,m){
+    var n = almNow();
+    var t = new Date(Date.UTC(n.getUTCFullYear(),n.getUTCMonth(),n.getUTCDate(),h,m,0));
+    var diff = (wd - n.getUTCDay() + 7) % 7;
+    t.setUTCDate(t.getUTCDate()+diff);
+    if (t <= n) t.setUTCDate(t.getUTCDate()+7);
+    return t - n;
+  }
+  function fmt(ms){
+    var s=Math.floor(ms/1000), d=Math.floor(s/86400), h=Math.floor(s%86400/3600), m=Math.floor(s%3600/60), sec=s%60;
+    var p=function(x){return (x<10?"0":"")+x};
+    return (d?d+" күн ":"")+p(h)+":"+p(m)+":"+p(sec);
+  }
+  function tick(){
+    var best=null;
+    deadlines.forEach(function(d){ var ms=nextAt(d.wd,d.h,d.m); if(!best||ms<best.ms) best={ms:ms,name:d.name}; });
+    document.getElementById("cdDead").textContent = fmt(best.ms);
+    document.getElementById("cdDeadName").textContent = best.name;
+    document.getElementById("cdBattle").textContent = fmt(nextAt(6,22,0));
+  }
+  tick(); setInterval(tick,1000);
+
+  /* ---------- Week ---------- */
+  var week = [
+    {s:"Дс",t:"Дүйсенбі",chips:[],p:"Тапсырма жоқ күн. Таңертең бот алдағы тапсырмаларды еске салады — ертерек бастап қойсаң, сәрсенбіде асықпайсың 😌"},
+    {s:"Сс",t:"Сейсенбі",chips:[],p:"Ертең — Конспект! Бот таңертең еске салады. Бүгін бастап қойсаң, ертең жеңіл болады 💪"},
+    {s:"Ср",t:"Сәрсенбі",chips:["📝 Конспект"],dl:"23:59-ға дейін",p:"Бот 08:00, 13:00 және 20:00-де еске салады. Кешке «Орындадым / Орындап жатырмын / Сәл кешігемін» батырмалары келеді."},
+    {s:"Бс",t:"Бейсенбі",chips:["📚 Үй жұмысы"],dl:"23:59-ға дейін",p:"Тағы да үш ескерту және кешкі сауалнама. Уақытында тапсырсаң — отың үлкейеді 🔥"},
+    {s:"Жм",t:"Жұма",chips:["🧪 Практикалық сабақ","❓ QUIZ","🛠 Қатемен жұмыс"],dl:"23:59-ға дейін",p:"Аптаның ең қызу күні! Үш тапсырма бар. Бұл — ТОП-10-ға кіру үшін шешуші күн ⚡"},
+    {s:"Сб",t:"Сенбі",chips:["🏅 Аптаның ТОП-10","⚔️ 22:00 — Meet-те баттл"],sat:true,p:"Кешке бот аптаның ТОП-10 оқушысын жариялайды. 22:00-де олар Google Meet-те жарысады, 1, 2, 3-орын иелері сыйлық алады 🏆"},
+    {s:"Жс",t:"Жексенбі",chips:[],p:"Демалыс 😴 Бірақ жаңа апта жақындап қалды — таңертең бот алдағы тапсырмаларды еске салады."}
+  ];
+  var daysEl=document.getElementById("days"), info=document.getElementById("dayinfo");
+  function showDay(i){
+    [].forEach.call(daysEl.children,function(b,j){b.classList.toggle("active",i===j)});
+    var d=week[i], h="<h3>"+d.t+"</h3>";
+    if(!d.chips.length) h+='<span class="chip">🌿 Тапсырма жоқ</span>';
+    d.chips.forEach(function(c){h+='<span class="chip">'+c+'</span>'});
+    if(d.dl) h+='<span class="chip dl">⏰ '+d.dl+'</span>';
+    h+="<p>"+d.p+"</p>";
+    info.innerHTML=h;
+  }
+  week.forEach(function(d,i){
+    var b=document.createElement("button");
+    b.className="day"+(d.chips.length?" has":"")+(d.sat?" sat":"");
+    b.textContent=d.s; b.onclick=function(){showDay(i)};
+    daysEl.appendChild(b);
+  });
+  var today=(almNow().getUTCDay()+6)%7; showDay(today);
+
+  /* ---------- Chat demo ---------- */
+  var chat=document.getElementById("chat");
+  var replies={
+    done:{me:"✅ Орындадым",bot:"Керемет! 🎉 Жарайсың! Отың тағы бір күнге ұзарды 🔥 Ертең де осылай!"},
+    doing:{me:"🔄 Орындап жатырмын",bot:"Жақсы, жалғастыр! 💪 Дедлайнға дейін уақыт бар — соңына дейін жеткіз, отыңды сөндірме 🔥"},
+    late:{me:"⏳ Сәл кешігемін",bot:"Түсіндім 🙏 Шыныңды айтқаның үшін рақмет. Бірақ есіңде болсын: кешіксең, от сөнеді. Мүмкіндігінше тезірек тапсырып жібер!"}
+  };
+  function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
+  function scroll(){chat.scrollTop=chat.scrollHeight}
+  function startChat(){
+    chat.innerHTML="";
+    chat.appendChild(el("div","msg bot","🌙 <b>Кешкі еске салу</b><br><br>📝 Бүгінгі тапсырма: <b>Конспект</b><br>⏰ Дедлайн: бүгін, 23:59<br>⌛️ 3 сағат 59 минут қалды<br><br>Тапсырма қалай? Төменнен таңда 👇<time>20:00</time>"));
+    var kb=el("div","kb");
+    [["done","✅ Орындадым"],["doing","🔄 Орындап жатырмын"],["late","⏳ Сәл кешігемін"]].forEach(function(o){
+      var b=el("button",null,o[1]);
+      b.onclick=function(){
+        [].forEach.call(kb.children,function(x){x.disabled=true});
+        b.classList.add("chosen"); b.innerHTML=o[1]+" ✓";
+        var r=replies[o[0]];
+        chat.appendChild(el("div","msg me",r.me+"<time>20:01 ✓✓</time>")); scroll();
+        var ty=el("div","typing","<i></i><i></i><i></i>"); chat.appendChild(ty); scroll();
+        setTimeout(function(){ty.remove(); chat.appendChild(el("div","msg bot",r.bot+"<time>20:01</time>")); scroll();
+          setTimeout(function(){chat.appendChild(el("div","msg bot","🔒 Жауабың мұғаліміңе жіберілді. Бүгінге таңдау жасалды — ертеңге дейін!<time>20:01</time>")); scroll();},700);
+        },900);
+      };
+      kb.appendChild(b);
+    });
+    chat.appendChild(kb);
+  }
+  document.getElementById("chatReset").onclick=startChat;
+  startChat();
+
+  /* ---------- Streak ---------- */
+  var st=0, best=0, flame=document.getElementById("flame"), sc=document.getElementById("scount"),
+      dots=document.getElementById("sdots"), ss=document.getElementById("sstatus"), rec=document.getElementById("srecord");
+  var lines=["Бастама жасалды! 🔥","Жалғастыр! 🔥🔥","Ай, керемет! 🚀","Сені ешкім тоқтата алмайды! 💪","Нағыз чемпион! 👑","Аңызға айналып барасың! 🌟"];
+  function render(){
+    sc.textContent=st;
+    var scale=Math.min(1+st*0.12,2.4);
+    flame.style.transform="scale("+scale+")";
+    flame.classList.toggle("off",st===0);
+    rec.textContent="Ең үздік нәтиже: "+best;
+  }
+  document.getElementById("sOk").onclick=function(){
+    st++; if(st>best)best=st;
+    if(dots.children.length>=14) dots.removeChild(dots.firstChild);
+    dots.appendChild(el("span",null,"🔥"));
+    ss.textContent=lines[Math.min(Math.floor((st-1)/2),lines.length-1)];
+    ss.style.color="var(--gold)";
+    render();
+    if(st===7) confetti(["🔥","⭐","🎉"]);
+  };
+  document.getElementById("sMiss").onclick=function(){
+    if(dots.children.length>=14) dots.removeChild(dots.firstChild);
+    dots.appendChild(el("span","x","💨"));
+    ss.textContent = st>0 ? "Әттең! "+st+" күндік от сөнді 💨 Қайтадан бастайық!" : "От әлі жанбаған. Тапсырманы уақытында тапсыр! 🙂";
+    ss.style.color="var(--fire2)";
+    st=0; render();
+    flame.classList.remove("shake"); void flame.offsetWidth; flame.classList.add("shake");
+  };
+  render();
+
+  /* ---------- Podium ---------- */
+  var shown=false;
+  document.getElementById("podBtn").onclick=function(){
+    var cols=[[".p3","w3",0],[".p2","w2",700],[".p1","w1",1400]];
+    var blocks=document.querySelectorAll(".block"), whos=document.querySelectorAll(".who");
+    if(shown){ blocks.forEach(function(b){b.style.height="0"}); whos.forEach(function(w){w.classList.remove("show")}); }
+    shown=true;
+    setTimeout(function(){
+      cols.forEach(function(c){
+        setTimeout(function(){
+          var b=document.querySelector(c[0]+" .block"); b.style.height=b.dataset.h+"px";
+          setTimeout(function(){document.getElementById(c[1]).classList.add("show")},400);
+          if(c[1]==="w1") setTimeout(function(){confetti(["🎉","🏆","⭐","🥇"])},600);
+        },c[2]);
+      });
+    },300);
+    this.textContent="🔁 Тағы бір рет";
+  };
+
+  /* ---------- Quiz ---------- */
+  var Q=[
+    {q:"Бот күніне неше рет еске салады (тапсырма бар күні)?",o:["1 рет","3 рет","10 рет"],a:1,e:"Дұрыс! Таңертең, түсте және кешке."},
+    {q:"Кешкі батырманы күніне неше рет таңдауға болады?",o:["Қалағанша","Бір-ақ рет","Тек жұмада"],a:1,e:"Иә, күніне бір-ақ рет. Сондықтан шынын бас!"},
+    {q:"Тапсырманы кешіктірсең, отыңа не болады?",o:["Екі есе үлкейеді","Ештеңе болмайды","Сөнеді"],a:2,e:"Дәл солай — от сөнеді, есеп нөлден басталады."},
+    {q:"Сенбі күні 22:00-де не болады?",o:["ТОП-10 арасында Meet-те баттл","Жаңа конспект","Бот өшеді"],a:0,e:"Иә! ТОП-10 жарысады, үздік үштік сыйлық алады 🏆"}
+  ];
+  var box=document.getElementById("quizBox"), answered=0, correct=0;
+  Q.forEach(function(item,qi){
+    var d=el("div","q"); d.appendChild(el("h4",null,(qi+1)+". "+item.q));
+    var opts=el("div","opts"), fb=el("div","fb");
+    item.o.forEach(function(t,oi){
+      var b=el("button",null,t);
+      b.onclick=function(){
+        [].forEach.call(opts.children,function(x){x.disabled=true});
+        opts.children[item.a].classList.add("right");
+        if(oi===item.a){correct++; fb.textContent="✅ "+item.e}
+        else{b.classList.add("wrong"); fb.textContent="❌ Дұрыс жауап: «"+item.o[item.a]+"». "+item.e}
+        answered++;
+        if(answered===Q.length){
+          var s=document.getElementById("qscore");
+          if(correct===Q.length){s.textContent="🏆 "+correct+"/"+Q.length+" — Сен толық дайынсың! Енді ботқа қосыл 🚀"; confetti(["🎉","🔥","⭐"])}
+          else s.textContent="👍 "+correct+"/"+Q.length+" — Жаман емес! Жоғарыдағы бөлімдерді тағы бір қарап шық.";
+        }
+      };
+      opts.appendChild(b);
+    });
+    d.appendChild(opts); d.appendChild(fb); box.appendChild(d);
+  });
+
+  /* ---------- Confetti ---------- */
+  function confetti(set){
+    for(var i=0;i<28;i++){
+      var c=el("div","confetti",set[i%set.length]);
+      c.style.left=Math.random()*100+"vw";
+      c.style.animationDuration=(1.8+Math.random()*1.8)+"s";
+      c.style.animationDelay=(Math.random()*.4)+"s";
+      document.body.appendChild(c);
+      (function(x){setTimeout(function(){x.remove()},4200)})(c);
+    }
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  var rs=document.querySelectorAll(".reveal");
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.12});
+    rs.forEach(function(r){io.observe(r)});
+  } else rs.forEach(function(r){r.classList.add("in")});
+})();
+</script>
+</body>
+</html>
