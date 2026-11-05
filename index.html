@@ -168,9 +168,46 @@
   .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s, transform .6s}
   .reveal.in{opacity:1;transform:none}
   @media (max-width:420px){.tl{gap:6px}.slot b{font-size:19px}.day{font-size:12px}}
+  /* ---- tabs ---- */
+  .tabs{position:sticky;top:0;z-index:6;background:rgba(13,17,28,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .tabs .in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 16px}
+  .tabs button{font:inherit;font-weight:800;font-size:15px;border-radius:14px;padding:11px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
+  .tabs button.on{background:linear-gradient(135deg,var(--fire1),var(--fire2));color:#fff;border-color:transparent}
+  nav{top:62px}
+  body.alau nav{display:none}
+  .alau-av{background:linear-gradient(160deg,#ffb347,#ff3d6e);font-size:46px}
+  .levels{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .lvl{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 6px;text-align:center}
+  .lvl .lvl-ic{font-size:28px;line-height:1.2}
+  .lvl b{display:block;font-size:14px;margin-top:6px}
+  .lvl span{font-size:12px;color:var(--muted)}
+  .lvl.top{border-color:rgba(255,204,77,.6);background:linear-gradient(180deg,rgba(255,204,77,.12),var(--card))}
+  .asim{text-align:center}
+  .asim-top{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+  .asim-stat{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:10px 6px}
+  .asim-stat small{display:block;color:var(--muted);font-size:12px;font-weight:600}
+  .asim-stat b{font-size:24px;font-variant-numeric:tabular-nums}
+  .asim-flame{font-size:64px;line-height:1.2;margin-top:8px;transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+  .asim-flame.pop{animation:apop .5s}
+  @keyframes apop{0%{transform:scale(.6)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+  .asim-level{font-weight:800;font-size:18px;margin-top:2px}
+  .asim-bar{height:10px;border-radius:999px;background:var(--card2);margin:12px auto 6px;max-width:360px;overflow:hidden}
+  .asim-bar div{height:100%;width:0;background:linear-gradient(90deg,#7fd3ff,#c9f1ff);transition:width .3s}
+  .asim-next{font-size:13px;color:var(--muted)}
+  .asim-reset{margin-top:12px;font-size:14px;padding:10px 16px}
+  .dots span.k{background:rgba(127,211,255,.2)}
+  .cmdgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .cmdgrid code{font-family:ui-monospace,Menlo,monospace;font-size:15px;color:#ffd7b8;font-weight:700}
+  .cmdgrid p{color:var(--muted);font-size:14px;margin-top:6px}
+  @media (max-width:520px){.levels{grid-template-columns:repeat(3,1fr)}.cmdgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+
+<div class="tabs"><div class="in">
+  <button data-tab="bot" class="on">📖 Бот туралы</button>
+  <button data-tab="alau">🔥 Алау жүйесі</button>
+</div></div>
 
 <nav><div class="in">
   <a href="#join">🚀 Қосылу</a>
@@ -184,6 +221,7 @@
 </div></nav>
 
 <main>
+<div id="tab-bot" class="tabpane">
 
   <!-- HERO -->
   <header class="hero">
@@ -246,7 +284,7 @@
     <div class="center"><button class="btn btn-ghost" id="chatReset">🔁 Қайта көру</button></div>
     <div class="card lock">
       <div class="ic">🔒</div>
-      <p><b style="color:var(--text)">Жауабыңды тек мұғалім көреді.</b> Басқа оқушылар сенің не таңдағаныңды білмейді. Батырманы <b style="color:var(--text)">күніне бір-ақ рет</b> таңдайсың, сондықтан шынын айт — бұл саған көмектесу үшін керек.</p>
+      <p><b style="color:var(--text)">Жауабыңды тек мұғалім көреді.</b> Басқа оқушылар сенің не таңдағаныңды білмейді. Батырманы <b style="color:var(--text)">күніне бір рет</b> таңдайсың (тек «Орындадым» деп жаңартуға болады), сондықтан шынын айт — бұл саған көмектесу үшін керек.</p>
     </div>
   </section>
 
@@ -254,7 +292,7 @@
   <section id="streak" class="reveal">
     <div class="tag">Duolingo сияқты</div>
     <h2>Отыңды жақ 🔥</h2>
-    <p class="sub">Тапсырманы кешікпей, қатарынан тапсырған сайын отың үлкейеді. Бір рет өткізіп алсаң — сөнеді. Төменде сынап көр!</p>
+    <p class="sub">Тапсырманы кешікпей, қатарынан тапсырған сайын отың үлкейеді. Өткізіп алсаң, сөнеді, бірақ 🧊 мұзың болса, от сақталады. Толығырақ — <a href="#alau" data-goto-alau style="color:var(--fire1);font-weight:700">🔥 Алау қойындысында</a>.</p>
     <div class="card streak">
       <div class="flame off" id="flame">🔥</div>
       <div class="scount" id="scount">0</div>
@@ -269,8 +307,8 @@
     </div>
     <div class="rules">
       <div class="rule"><div class="ic">🔥</div><p><b>Уақытында тапсырдың — от жанады.</b> Әр уақытында орындалған тапсырма отыңа +1 қосады.</p></div>
-      <div class="rule"><div class="ic">💨</div><p><b>Кешіктің немесе тапсырмадың — от сөнеді.</b> Есеп нөлден қайта басталады.</p></div>
-      <div class="rule"><div class="ic">🎁</div><p><b>Курс соңында ең үлкен оты бар оқушы сыйлық алады.</b> Бұл — ұзақ жарыс, сондықтан әр тапсырма маңызды.</p></div>
+      <div class="rule"><div class="ic">💨</div><p><b>Кешіктің немесе тапсырмадың — от сөнеді.</b> Бірақ 🧊 мұзың болса (әр 5 тапсырмаға 1 мұз), от сақталып қалады.</p></div>
+      <div class="rule"><div class="ic">🎁</div><p><b>Курс соңында ең ұзақ от рекорды бар оқушы сыйлық алады.</b> Рекорд ешқашан өшпейді, сондықтан әр тапсырма маңызды.</p></div>
     </div>
   </section>
 
@@ -310,8 +348,8 @@
     <h2>Жиі қойылатын сұрақтар ❓</h2>
     <p class="sub"></p>
     <details><summary>Менің жауабымды басқа оқушылар көре ме?</summary><p>Жоқ. «Орындадым», «Орындап жатырмын», «Сәл кешігемін» деген жауаптарды тек мұғалім көреді. Жария түрде тек аптаның ТОП-10 тізімі мен баттл жеңімпаздары шығады.</p></details>
-    <details><summary>Батырманы бірнеше рет басуға бола ма?</summary><p>Жоқ, күніне бір-ақ рет таңдайсың. Сондықтан ойланып, шынын бас.</p></details>
-    <details><summary>Кешігіп қалсам не болады?</summary><p>Отың сөнеді, есеп нөлден басталады. Бірақ ренжіме: келесі тапсырманы уақытында тапсырсаң, от қайтадан жанады 🔥</p></details>
+    <details><summary>Батырманы бірнеше рет басуға бола ма?</summary><p>Күніне бір рет таңдайсың. Бір ғана ерекшелік бар: «Орындап жатырмын» немесе «Кешігемін» деп бассаң, тапсырманы бітірген соң «✅ Орындадым» деп жаңарта аласың.</p></details>
+    <details><summary>Кешігіп қалсам не болады?</summary><p>Бот тапсырманы нақты қай уақытта тапсыратыныңды сұрайды. Дедлайнға үлгермесең, отың сөнеді, бірақ 🧊 мұзың болса, сақталып қалады. Рекордың ешқашан өшпейді 🏅</p></details>
     <details><summary>ТОП-10-ға қалай кіремін?</summary><p>Тапсырмаларды уақытында орында, отыңды сөндірме. Апта бойы тұрақты жұмыс істеген оқушылар тізімнің басында болады.</p></details>
     <details><summary>Хабарламалар келмей жатыр. Не істеймін?</summary><p>Ботты бұғаттап (блоктап) қоймағаныңды тексер және оған /start деп қайта жаз. Мәселе шешілмесе, мұғаліміңе хабарлас.</p></details>
     <details><summary>Сыйлықтар қандай?</summary><p>Бұл — құпия 🤫 Мұғалім өзі жариялайды. Бір нәрсе анық: оған лайық болу үшін еңбек ету керек!</p></details>
@@ -325,6 +363,115 @@
       <a class="btn btn-fire" href="https://t.me/JUZZZMIKO_bot" target="_blank" rel="noopener">🚀 @JUZZZMIKO_bot-ты ашу</a>
     </div>
   </section>
+
+</div>
+<!-- ===================== АЛАУ ҚОЙЫНДЫСЫ ===================== -->
+<div id="tab-alau" class="tabpane" hidden>
+  <header class="hero">
+    <div class="avatar alau-av">🔥</div>
+    <h1>«Алау» жүйесі<br><span class="grad">Отыңды жақ. Мұз жина.</span><br>Рекорд жаса! 🏅</h1>
+    <p>Тапсырмаларды уақытында тапсырған сайын отың үлкейіп, деңгейің өседі. Курс соңында <b>ең ұзақ от рекорды</b> бар оқушы сыйлық алады 🎁</p>
+    <a class="btn btn-fire" href="https://t.me/JUZZZMIKO_bot" target="_blank" rel="noopener">🔥 Ботта отымды көру</a>
+  </header>
+
+  <!-- деңгейлер -->
+  <section class="reveal">
+    <div class="tag">5 деңгей</div>
+    <h2>Отың өскен сайын деңгейің көтеріледі</h2>
+    <p class="sub">Сан — қатарынан уақытында орындалған тапсырмалар саны.</p>
+    <div class="levels">
+      <div class="lvl"><div class="lvl-ic">✨</div><b>Ұшқын</b><span>1–2</span></div>
+      <div class="lvl"><div class="lvl-ic">🔥</div><b>От</b><span>3–5</span></div>
+      <div class="lvl"><div class="lvl-ic">🔥🔥</div><b>Алау</b><span>6–9</span></div>
+      <div class="lvl"><div class="lvl-ic">🌋</div><b>Жанартау</b><span>10–19</span></div>
+      <div class="lvl top"><div class="lvl-ic">☀️</div><b>Күн</b><span>20+</span></div>
+    </div>
+  </section>
+
+  <!-- симулятор -->
+  <section class="reveal">
+    <div class="tag">Өзің сынап көр</div>
+    <h2>Алау симуляторы 🎮</h2>
+    <p class="sub">Батырмаларды басып көр: от қалай жанады, мұз қалай жиналады және қалай отыңды құтқарады.</p>
+    <div class="card asim">
+      <div class="asim-top">
+        <div class="asim-stat"><small>Қазіргі от</small><b id="aCur">0</b></div>
+        <div class="asim-stat"><small>🏅 Рекорд</small><b id="aRec">0</b></div>
+        <div class="asim-stat"><small>🧊 Мұз</small><b id="aIce">0</b></div>
+      </div>
+      <div class="asim-flame" id="aFlame">💨</div>
+      <div class="asim-level" id="aLevel">Сөнген</div>
+      <div class="asim-bar"><div id="aBar"></div></div>
+      <div class="asim-next" id="aNext">Келесі мұзға: 5 тапсырма</div>
+      <div class="dots" id="aDots"></div>
+      <div class="srow">
+        <button class="btn btn-fire" id="aOk">✅ Уақытында тапсырдым</button>
+        <button class="btn btn-ghost" id="aMiss">😴 Өткізіп алдым</button>
+      </div>
+      <div class="sstatus" id="aMsg">Батырманы бас 👆</div>
+      <button class="btn btn-ghost asim-reset" id="aReset">🔁 Басынан бастау</button>
+    </div>
+  </section>
+
+  <!-- ережелер -->
+  <section class="reveal">
+    <div class="tag">Ережелер</div>
+    <h2>Алау қалай жұмыс істейді</h2>
+    <p class="sub"></p>
+    <div class="rules">
+      <div class="rule"><div class="ic">🔥</div><p><b>Уақытында «✅ Орындадым» — от +1.</b> Тапсырманы дедлайнға дейін орындап, батырманы басқан сәтте отың бірден жанады.</p></div>
+      <div class="rule"><div class="ic">🔄</div><p><b>«Орындап жатырмын» → «Орындадым».</b> Алдымен «Орындап жатырмын» немесе «Кешігемін» деп бассаң да, бітірген соң <b>«✅ Орындадым»</b> деп жаңарта аласың. Дедлайнға дейін үлгерсең, отың жанады.</p></div>
+      <div class="rule"><div class="ic">🧊</div><p><b>Әр 5 тапсырмаға — 1 мұз</b> (ең көбі 2). Бір тапсырманы өткізіп алсаң, отың сөнбейді: мұз өздігінен жұмсалып, отыңды сақтап қалады.</p></div>
+      <div class="rule"><div class="ic">⏰</div><p><b>21:00 — «Отың сөнгелі тұр!»</b> Отың бар, бірақ бүгінгі тапсырманы әлі белгілемесең, бот ескертеді. Сол хабарламадағы батырмамен бірден белгі қоя аласың.</p></div>
+      <div class="rule"><div class="ic">💨</div><p><b>Мұз жоқ болса, от сөнеді.</b> Келесі күні таңертең бот хабарлайды. Бірақ <b>рекордың сақталады</b>, ал отты келесі тапсырмамен қайта жағуға болады.</p></div>
+      <div class="rule"><div class="ic">🏅</div><p><b>Рекорд — ең ұзақ отың.</b> Курс соңындағы сыйлық ағымдағы отқа емес, осы рекордқа беріледі. Сондықтан бір қате бүкіл еңбегіңді жоймайды.</p></div>
+    </div>
+  </section>
+
+  <!-- бір күннің мысалы -->
+  <section class="reveal">
+    <div class="tag">Мысал</div>
+    <h2>Отты сақтап қалған кеш 🌙</h2>
+    <p class="sub">Айгүлдің оты — 5. Бүгін «Үй жұмысы», дедлайн 23:59.</p>
+    <div class="flow">
+      <div class="fstep"><div class="t">15:00</div><p><b>🔄 «Орындап жатырмын»</b>Бот: «💪 Сәттілік! 23:59-ға дейін күтемін».</p></div>
+      <div class="fstep"><div class="t">21:00</div><p><b>🔥 «5 тапсырмалық отың сөнгелі тұр!»</b>Бот 2 сағат 59 минут қалғанын еске салады.</p></div>
+      <div class="fstep"><div class="t">22:40</div><p><b>✅ «Орындадым» — жаңартты</b>От 6-ға жетті. «🔥🔥 Жаңа деңгей: Алау! 🏅 Жаңа рекорд: 6!»</p></div>
+    </div>
+  </section>
+
+  <!-- командалар -->
+  <section class="reveal">
+    <div class="tag">Ботта</div>
+    <h2>Отыңды қалай көресің</h2>
+    <p class="sub"></p>
+    <div class="cmdgrid">
+      <div class="card"><code>/streak</code><p>Сенің деңгейің, қазіргі отың, рекордың және мұзың. Келесі мұзға неше тапсырма қалғаны да көрсетіледі.</p></div>
+      <div class="card"><code>/fire</code><p>Топтың от рекордтары (ТОП-10). Сенің орның да белгіленеді.</p></div>
+    </div>
+  </section>
+
+  <!-- сұрақтар -->
+  <section class="reveal">
+    <div class="tag">Сұрақ-жауап</div>
+    <h2>Алау туралы сұрақтар ❓</h2>
+    <p class="sub"></p>
+    <details><summary>Мұзды өзім қолдана аламын ба?</summary><p>Жоқ, мұз өздігінен жұмсалады: тапсырманы өткізіп алғанда, бот оны отыңды құтқару үшін пайдаланады. Мұз ең көбі 2 болады, сондықтан оны жинап қойған пайдалы 🧊</p></details>
+    <details><summary>Дедлайннан кейін «Орындадым» бассам ше?</summary><p>Тапсырма орындалды деп жазылады, бірақ уақытында болмағандықтан отқа қосылмайды. Мұзың болса, ол жұмсалады, болмаса отың сөнеді.</p></details>
+    <details><summary>«Орындадым» деп басқан соң өзгерте аламын ба?</summary><p>Жоқ. «Орындадым» — соңғы белгі. Тек «Орындап жатырмын» немесе «Кешігемін» деген белгіні «Орындадым» деп жаңартуға болады.</p></details>
+    <details><summary>Өтірік «Орындадым» бассам ше?</summary><p>Мұғалім тексереді. Белгі өтірік болса, мұғалім оны алып тастайды, ал отың бірден қайта есептеледі. Оған тәуекел етпеген дұрыс 😉</p></details>
+    <details><summary>Отым сөнсе, рекордым да өше ме?</summary><p>Жоқ! Рекорд — ең ұзақ отың, ол ешқашан азаймайды. Курс соңындағы сыйлық осы рекорд бойынша беріледі.</p></details>
+  </section>
+
+  <section class="reveal">
+    <div class="final">
+      <div style="font-size:48px">☀️</div>
+      <h2>Күн деңгейіне жет!</h2>
+      <p>Қатарынан 20 тапсырма — топтағы ең ыстық от. Бүгіннен баста!</p>
+      <a class="btn btn-fire" href="https://t.me/JUZZZMIKO_bot" target="_blank" rel="noopener">🚀 @JUZZZMIKO_bot-ты ашу</a>
+    </div>
+  </section>
+</div>
 
   <footer>ZAZIKSIZDARYM 🫶❤️ · уақыт Алматы бойынша көрсетілген</footer>
 </main>
@@ -393,8 +540,8 @@
   var chat=document.getElementById("chat");
   var replies={
     done:{me:"✅ Орындадым",bot:"Керемет! 🎉 Жарайсың! Отың тағы бір күнге ұзарды 🔥 Ертең де осылай!"},
-    doing:{me:"🔄 Орындап жатырмын",bot:"Жақсы, жалғастыр! 💪 Дедлайнға дейін уақыт бар — соңына дейін жеткіз, отыңды сөндірме 🔥"},
-    late:{me:"⏳ Сәл кешігемін",bot:"Түсіндім 🙏 Шыныңды айтқаның үшін рақмет. Бірақ есіңде болсын: кешіксең, от сөнеді. Мүмкіндігінше тезірек тапсырып жібер!"}
+    doing:{me:"🔄 Орындап жатырмын",bot:"💪 Сәттілік! Сен міндетті түрде үлгересің. ⏰ «Конспект» — бүгін 23:59-ге дейін күтемін! Бітірген соң «✅ Орындадым» деп жаңартуды ұмытпа 🔥"},
+    late:{me:"⏳ Сәл кешігемін",bot:"🙏 Түсіндім, шыныңды айтқаның үшін рақмет! ⏳ Тапсырманы нақты қай уақытта тапсыра аласың? Мысалы: бүгін 23:30 немесе ертең 10:00"}
   };
   function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
   function scroll(){chat.scrollTop=chat.scrollHeight}
@@ -411,7 +558,7 @@
         chat.appendChild(el("div","msg me",r.me+"<time>20:01 ✓✓</time>")); scroll();
         var ty=el("div","typing","<i></i><i></i><i></i>"); chat.appendChild(ty); scroll();
         setTimeout(function(){ty.remove(); chat.appendChild(el("div","msg bot",r.bot+"<time>20:01</time>")); scroll();
-          setTimeout(function(){chat.appendChild(el("div","msg bot","🔒 Жауабың мұғаліміңе жіберілді. Бүгінге таңдау жасалды — ертеңге дейін!<time>20:01</time>")); scroll();},700);
+          setTimeout(function(){chat.appendChild(el("div","msg bot","🔒 Жауабың мұғаліміңе жіберілді.<time>20:01</time>")); scroll();},700);
         },900);
       };
       kb.appendChild(b);
@@ -473,8 +620,8 @@
   /* ---------- Quiz ---------- */
   var Q=[
     {q:"Бот күніне неше рет еске салады (тапсырма бар күні)?",o:["1 рет","3 рет","10 рет"],a:1,e:"Дұрыс! Таңертең, түсте және кешке."},
-    {q:"Кешкі батырманы күніне неше рет таңдауға болады?",o:["Қалағанша","Бір-ақ рет","Тек жұмада"],a:1,e:"Иә, күніне бір-ақ рет. Сондықтан шынын бас!"},
-    {q:"Тапсырманы кешіктірсең, отыңа не болады?",o:["Екі есе үлкейеді","Ештеңе болмайды","Сөнеді"],a:2,e:"Дәл солай — от сөнеді, есеп нөлден басталады."},
+    {q:"Кешкі батырманы күніне неше рет таңдауға болады?",o:["Қалағанша","Бір-ақ рет","Тек жұмада"],a:1,e:"Иә, күніне бір рет. Тек «Орындап жатырмын» → «✅ Орындадым» деп жаңартуға болады."},
+    {q:"Тапсырманы кешіктірсең, отыңа не болады?",o:["Екі есе үлкейеді","Ештеңе болмайды","Сөнеді (мұзың болмаса)"],a:2,e:"Дәл солай — от сөнеді, бірақ 🧊 мұзың болса, сақталып қалады."},
     {q:"Сенбі күні 22:00-де не болады?",o:["ТОП-10 арасында Meet-те баттл","Жаңа конспект","Бот өшеді"],a:0,e:"Иә! ТОП-10 жарысады, үздік үштік сыйлық алады 🏆"}
   ];
   var box=document.getElementById("quizBox"), answered=0, correct=0;
@@ -520,5 +667,65 @@
   } else rs.forEach(function(r){r.classList.add("in")});
 })();
 </script>
+<script>
+(function(){
+  /* ---------- қойындылар (#alau) ---------- */
+  var tabs=document.querySelectorAll(".tabs button"), bot=document.getElementById("tab-bot"), alau=document.getElementById("tab-alau");
+  function show(name, scroll){
+    var isAlau = name==="alau";
+    bot.hidden = isAlau; alau.hidden = !isAlau;
+    document.body.classList.toggle("alau", isAlau);
+    [].forEach.call(tabs,function(b){ b.classList.toggle("on", b.dataset.tab===(isAlau?"alau":"bot")); });
+    [].forEach.call((isAlau?alau:bot).querySelectorAll(".reveal"),function(r){ r.classList.add("in"); });
+    if (scroll) window.scrollTo({top:0});
+  }
+  [].forEach.call(tabs,function(b){
+    b.onclick=function(){
+      if (b.dataset.tab==="alau"){ if (location.hash!=="#alau") location.hash="alau"; else show("alau",true); }
+      else { history.replaceState(null,"",location.pathname+location.search); show("bot",true); }
+    };
+  });
+  window.addEventListener("hashchange",function(){ show(location.hash==="#alau"?"alau":"bot", location.hash==="#alau"); });
+  document.querySelectorAll("a[data-goto-alau]").forEach(function(a){ a.onclick=function(e){ e.preventDefault(); location.hash="alau"; }; });
+  show(location.hash==="#alau"?"alau":"bot", false);
+
+  /* ---------- Алау симуляторы ---------- */
+  var LV=[[20,"☀️","Күн"],[10,"🌋","Жанартау"],[6,"🔥🔥","Алау"],[3,"🔥","От"],[1,"✨","Ұшқын"],[0,"💨","Сөнген"]];
+  function level(n){ for (var i=0;i<LV.length;i++) if (n>=LV[i][0]) return LV[i]; }
+  var cur=0, rec=0, ice=0;
+  var $=function(id){return document.getElementById(id);};
+  function pop(){ var f=$("aFlame"); f.classList.remove("pop"); void f.offsetWidth; f.classList.add("pop"); }
+  function dot(ch, cls){ var d=$("aDots"); if (d.children.length>=16) d.removeChild(d.firstChild); var s=document.createElement("span"); s.textContent=ch; if(cls) s.className=cls; d.appendChild(s); }
+  function msg(t,c){ var m=$("aMsg"); m.textContent=t; m.style.color=c||"var(--gold)"; }
+  function render(){
+    var l=level(cur);
+    $("aCur").textContent=cur; $("aRec").textContent=rec; $("aIce").textContent=ice+"/2";
+    $("aFlame").textContent=l[1]; $("aLevel").textContent=l[2];
+    var toNext = ice>=2 ? 0 : 5-(cur%5);
+    $("aBar").style.width = ice>=2 ? "100%" : ((cur%5)/5*100)+"%";
+    $("aNext").textContent = ice>=2 ? "🧊 Мұз толық (ең көбі 2)" : "Келесі мұзға: "+toNext+" тапсырма";
+  }
+  $("aOk").onclick=function(){
+    var before=level(cur);
+    cur++; var news=[];
+    if (cur>rec){ rec=cur; }
+    if (cur%5===0 && ice<2){ ice++; news.push("🧊 +1 мұз!"); }
+    var after=level(cur);
+    if (after[0]!==before[0] && cur>1) news.push(after[1]+" Жаңа деңгей: "+after[2]+"!");
+    dot("🔥");
+    msg(news.length? news.join("  ") : "От +1! Жалғастыр 💪");
+    pop(); render();
+  };
+  $("aMiss").onclick=function(){
+    if (cur>0 && ice>0){ ice--; dot("🧊","k"); msg("🧊 Мұз отыңды сақтап қалды! От: "+cur, "#7fd3ff"); }
+    else if (cur>0){ var lost=cur; cur=0; dot("💨","x"); msg("💨 "+lost+" тапсырмалық от сөнді… Рекорд сақталды: 🏅 "+rec, "var(--fire2)"); }
+    else { dot("💨","x"); msg("От әлі жанбаған. Келесі тапсырмадан баста! 🙂", "var(--fire2)"); }
+    pop(); render();
+  };
+  $("aReset").onclick=function(){ cur=0; rec=0; ice=0; $("aDots").innerHTML=""; msg("Батырманы бас 👆"); render(); };
+  render();
+})();
+</script>
+
 </body>
 </html>
